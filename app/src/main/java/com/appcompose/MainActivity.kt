@@ -7,6 +7,8 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
+import com.appcompose.domain.entities.Merchant
+import com.appcompose.domain.viewmodel.MapViewModel
 import com.appcompose.ui.theme.AppComposeTheme
 import com.google.android.libraries.maps.CameraUpdateFactory
 import com.google.android.libraries.maps.MapView
@@ -32,22 +34,27 @@ private fun LoadMapView(latitude: String, longitude: String) {
     // composable. In this way, when an update to the MapView happens, this composable won't
     // recompose and the MapView won't need to be recreated.
     val mapView = MapUtils().rememberMapViewWithLifecycle()
-    MapViewContainer(mapView, latitude, longitude)
+    MapViewContainer(mapView, latitude, longitude, MapViewModel())
 }
 
 @Composable
 private fun MapViewContainer(
     map: MapView,
     latitude: String,
-    longitude: String
+    longitude: String,
+    viewModel: MapViewModel
 ) {
     val cameraPosition = remember(latitude, longitude) {
         LatLng(latitude.toDouble(), longitude.toDouble())
     }
+    var merchants = viewModel.getMerchantList()
 
     LaunchedEffect(map) {
         val googleMap = map.awaitMap()
-        googleMap.addMarker { position(cameraPosition) }
+        merchants.forEach{
+                item -> googleMap.addMarker { position(item.location)}
+        }
+        //googleMap.addMarker { position(cameraPosition)}
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(cameraPosition))
         googleMap.setMaxZoomPreference(MaxZoom)
         googleMap.setMinZoomPreference(MinZoom)
