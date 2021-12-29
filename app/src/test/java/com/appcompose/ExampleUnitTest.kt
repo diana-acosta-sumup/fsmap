@@ -8,9 +8,7 @@ import com.google.android.libraries.maps.model.LatLng
 import org.junit.Test
 
 import org.junit.Assert.*
-import org.junit.Before
 import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -34,7 +32,7 @@ class ExampleUnitTest {
     @Test
     fun getNoneMerchants() {
         viewModel = MapViewModel()
-        assertTrue(viewModel.merchants.isEmpty())
+        assertTrue(viewModel.getNoneMerchantList().isEmpty())
     }
 
 

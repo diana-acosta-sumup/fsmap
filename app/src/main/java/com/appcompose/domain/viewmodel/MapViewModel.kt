@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appcompose.domain.entities.Merchant
 import com.appcompose.domain.repository.Repository
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class MapViewModel : ViewModel() {
@@ -31,5 +30,9 @@ class MapViewModel : ViewModel() {
             return@launch
         }
         return merchantList
+    }
+
+    fun getNoneMerchantList(): List<Merchant> {
+        return emptyList()
     }
 }
